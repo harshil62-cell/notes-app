@@ -18,6 +18,11 @@ app.use(express.json());
 //routes
 app.use('/api',authRouter);
 app.use('/api/notes',noteRouter);
+app.use('/',()=>{
+    res.status(200).json({
+        message:"Running successfully"
+    });
+})
 
 app.listen(PORT,()=>{
     console.log(`Server is running on port ${PORT}`);
