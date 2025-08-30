@@ -18,7 +18,7 @@ app.use(express.json());
 //routes
 app.use('/api',authRouter);
 app.use('/api/notes',noteRouter);
-app.use('/',()=>{
+app.use('/',(req,res)=>{
     res.status(200).json({
         message:"Running successfully"
     });
