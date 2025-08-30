@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express=require('express');
+const cors=require('cors');
 const connectToDb=require('./database/db');
 const authRouter=require('./routes/auth-routes');
 const noteRouter=require('./routes/note-routes');
@@ -8,6 +9,7 @@ const noteRouter=require('./routes/note-routes');
 connectToDb();
 
 const app=express();
+app.use(cors());
 const PORT=process.env.PORT || 3000;
 
 //Middlewares
