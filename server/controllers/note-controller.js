@@ -2,22 +2,19 @@ const Note = require('../models/Note');
 
 const createNote = async (req, res) => {
     try {
-        // Get the userId directly from the trusted JWT payload.
-        // The middleware already confirms the user exists.
         const userId = req.userInfo.userId;
 
         const { title, content } = req.body;
 
-        // Use 400 for Bad Request (missing data), and check for either field.
         if (!title || !content) {
-            return res.status(400).json({ // FIX: Added 'return' and changed to 400
+            return res.status(400).json({
                 success: false,
                 message: 'Title and content are required'
             });
         }
 
         const note = new Note({
-            userId, // This is the user's _id from the token
+            userId,
             title,
             content,
         });
@@ -43,13 +40,11 @@ const deleteNote = async (req, res) => {
     try {
         const { id: noteId } = req.params;
 
-        // FIX: Changed from .id to .userId to match JWT payload
         const userId = req.userInfo.userId;
 
         const note = await Note.findOneAndDelete({ _id: noteId, userId: userId });
 
         if (!note) {
-            // FIX: Added 'return'
             return res.status(404).json({
                 success: false,
                 message: 'Note not found or you do not have permission to delete it'
@@ -64,7 +59,6 @@ const deleteNote = async (req, res) => {
     } catch (error) {
         console.log(error);
         if (error.kind === 'ObjectId') {
-             // FIX: Added 'return'
             return res.status(400).json({
                 success: false,
                 message: 'Invalid note ID format'
