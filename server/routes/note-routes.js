@@ -9,7 +9,8 @@
  * @swagger
  * /api/notes/create-note:
  *   post:
- *     summary: Create a new note
+ *     summary: Create a new note for the authenticated user
+ *     description: Creates a new note for the authenticated user. Requires JWT authentication.
  *     tags: [Notes]
  *     security:
  *       - bearerAuth: []
@@ -26,16 +27,31 @@
  *                 type: string
  *     responses:
  *       201:
- *         description: Note created
+ *         description: Note created successfully
  *       400:
- *         description: Bad request
+ *         description: Title or content missing
+ */
+
+/**
+ * @swagger
+ * /api/notes/get-notes:
+ *   get:
+ *     summary: Get all notes for the authenticated user
+ *     description: Returns all notes belonging to the authenticated user, sorted by creation date (newest first).
+ *     tags: [Notes]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: List of notes
  */
 
 /**
  * @swagger
  * /api/notes/delete-note/{id}:
  *   delete:
- *     summary: Delete a note by ID
+ *     summary: Delete a note by ID for the authenticated user
+ *     description: Deletes a note by its ID for the authenticated user. Only deletes notes belonging to the requesting user.
  *     tags: [Notes]
  *     security:
  *       - bearerAuth: []
@@ -47,22 +63,9 @@
  *           type: string
  *     responses:
  *       200:
- *         description: Note deleted
+ *         description: Note deleted successfully
  *       404:
  *         description: Note not found
- */
-
-/**
- * @swagger
- * /api/notes/get-notes:
- *   get:
- *     summary: Get all notes for the authenticated user
- *     tags: [Notes]
- *     security:
- *       - bearerAuth: []
- *     responses:
- *       200:
- *         description: List of notes
  */
 
 const express = require('express');
